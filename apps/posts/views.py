@@ -14,7 +14,8 @@ User = get_user_model()
 
 class PostViewset(mixins.CreateModelMixin, mixins.ListModelMixin, mixins.RetrieveModelMixin, mixins.DestroyModelMixin, viewsets.GenericViewSet):
     authentication_classes = (JWTAuthentication, SessionAuthentication)
-    queryset = Post.objects.all().order_by('-createdAt')  
+    queryset = Post.objects.all().order_by('-createdAt')
+    permission_classes = (permissions.IsAuthenticated,)
 
     def get_serializer_class(self):
         if self.action == 'create':
@@ -22,25 +23,19 @@ class PostViewset(mixins.CreateModelMixin, mixins.ListModelMixin, mixins.Retriev
 
         return PostSerializer
 
-    def get_permissions(self):
-        if self.action == "create":
-            return [permissions.IsAuthenticated()]
-        if self.action == "destroy":
-            return [permissions.IsAuthenticated()]
-
-        return []
-
 
 class PostSearchViewset(mixins.ListModelMixin, viewsets.GenericViewSet):
     authentication_classes = (JWTAuthentication, SessionAuthentication)
     queryset = Post.objects.all().order_by('-createdAt')
     serializer_class = PostPreviewSerializer
+    permission_classes = (permissions.IsAuthenticated,)
     filter_backends = (DjangoFilterBackend, filters.SearchFilter)
     search_fields = ('caption', 'tags')
 
 
 class CommentViewset(mixins.CreateModelMixin, mixins.RetrieveModelMixin, mixins.ListModelMixin, mixins.DestroyModelMixin, viewsets.GenericViewSet):
-    authentication_classes = (JWTAuthentication, SessionAuthentication )
+    authentication_classes = (JWTAuthentication, SessionAuthentication)
+    permission_classes = (permissions.IsAuthenticated,)
 
     def get_queryset(self):
         return Comment.objects.all().order_by('-createdAt')
@@ -51,18 +46,10 @@ class CommentViewset(mixins.CreateModelMixin, mixins.RetrieveModelMixin, mixins.
         
         return CommentsSerializer
 
-    def get_permissions(self):
-        if self.action == "create":
-            return [permissions.IsAuthenticated()]
-        if self.action == "destroy":
-            return [permissions.IsAuthenticated()]
-
-        return []
-
 
 class FollowViewset(mixins.CreateModelMixin, mixins.RetrieveModelMixin, mixins.ListModelMixin, mixins.DestroyModelMixin, viewsets.GenericViewSet):
     authentication_classes = (JWTAuthentication, SessionAuthentication)
-    permission_class = permissions.IsAuthenticated
+    permission_classes = (permissions.IsAuthenticated,)
     lookup_field = 'following_id'
     
     def get_queryset(self):
@@ -77,7 +64,7 @@ class FollowViewset(mixins.CreateModelMixin, mixins.RetrieveModelMixin, mixins.L
 
 class LikeViewset(mixins.CreateModelMixin, mixins.ListModelMixin, mixins.RetrieveModelMixin, mixins.DestroyModelMixin, viewsets.GenericViewSet):
     authentication_classes = (JWTAuthentication, SessionAuthentication )
-    permission_class = permissions.IsAuthenticated 
+    permission_classes = (permissions.IsAuthenticated,) 
     lookup_field = 'post_id'
 
     def get_queryset(self):
@@ -92,7 +79,7 @@ class LikeViewset(mixins.CreateModelMixin, mixins.ListModelMixin, mixins.Retriev
 
 class SaveViewset(mixins.CreateModelMixin, mixins.ListModelMixin, mixins.RetrieveModelMixin, mixins.DestroyModelMixin, viewsets.GenericViewSet):
     authentication_classes = (JWTAuthentication, SessionAuthentication )
-    permission_class = permissions.IsAuthenticated 
+    permission_classes = (permissions.IsAuthenticated,) 
     lookup_field = 'post_id'
 
     def get_queryset(self):
@@ -107,7 +94,7 @@ class SaveViewset(mixins.CreateModelMixin, mixins.ListModelMixin, mixins.Retriev
 
 class FeedViewset(mixins.ListModelMixin, viewsets.GenericViewSet):
     authentication_classes = (JWTAuthentication, SessionAuthentication )
-    permission_class = permissions.IsAuthenticated
+    permission_classes = (permissions.IsAuthenticated,)
     serializer_class = PostSerializer
 
     def get_queryset(self):
@@ -122,7 +109,7 @@ class FeedViewset(mixins.ListModelMixin, viewsets.GenericViewSet):
 
 class UserProfileViewset(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, mixins.ListModelMixin, viewsets.GenericViewSet):
     authentication_classes = (JWTAuthentication, SessionAuthentication)
-    permission_class = permissions.IsAuthenticated 
+    permission_classes = (permissions.IsAuthenticated,) 
     queryset = User.objects.all()
 
     def get_serializer_class(self):

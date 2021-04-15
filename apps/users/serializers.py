@@ -33,10 +33,10 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class UserSignupSerializer(serializers.ModelSerializer):
-    username = serializers.CharField(label="邮箱", help_text="邮箱", required=True, allow_blank=False,
-                                     validators=[UniqueValidator(queryset=User.objects.all(), message="用户已经存在")])
-    password = serializers.CharField(style={'input_type': 'password'}, help_text="密码", label="密码", write_only=True)
-    nickname = serializers.CharField(label="昵称", help_text="昵称", required=True, allow_blank=False)
+    username = serializers.CharField(label="email", help_text="email", required=True, allow_blank=False,
+                                     validators=[UniqueValidator(queryset=User.objects.all(), message="user exists")])
+    password = serializers.CharField(style={'input_type': 'password'}, help_text="password", label="password", write_only=True)
+    nickname = serializers.CharField(label="nickname", help_text="nickname", required=True, allow_blank=False)
 
     def validate(self, attrs):
         attrs["email"] = attrs["username"]

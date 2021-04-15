@@ -15,6 +15,7 @@ class FilesSerializer(serializers.ModelSerializer):
         model = PostFile
         fields = '__all__'
 
+
 class PostPreviewSerializer(serializers.ModelSerializer):
     likesCount = serializers.SerializerMethodField()
     commentsCount = serializers.SerializerMethodField()
@@ -134,7 +135,7 @@ class LikeCreateSerializer(serializers.ModelSerializer):
             UniqueTogetherValidator(
                 queryset=Like.objects.all(),
                 fields=('user', 'post'),
-                message="已经点赞"
+                message="liked"
             )
         ]
         fields = ('user', 'post')
@@ -151,7 +152,7 @@ class FollowCreateSerializer(serializers.ModelSerializer):
             UniqueTogetherValidator(
                 queryset=Follow.objects.all(),
                 fields=('following', 'follower'),
-                message="已经关注"
+                message="following"
             )
         ]
         fields = ('following', 'follower')
@@ -182,7 +183,7 @@ class SaveCreateSerializer(serializers.ModelSerializer):
             UniqueTogetherValidator(
                 queryset=Save.objects.all(),
                 fields=('user', 'post'),
-                message="已经保存"
+                message="saved"
             )
         ]
         fields = ('user', 'post')
