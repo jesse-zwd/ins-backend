@@ -12,7 +12,7 @@ class Post(models.Model):
     user = models.ForeignKey(User, related_name='posts', on_delete=models.CASCADE)
     caption = models.CharField(max_length=200, default='', verbose_name='caption')
     tags = models.CharField(max_length=100, null=True, blank=True, verbose_name='tags')
-    createdAt = models.DateTimeField(default=datetime.now, verbose_name='time of creating')
+    createdAt = models.DateTimeField(default=datetime.now, verbose_name='createdAt')
     
     def __str__(self):
         return self.caption
@@ -26,7 +26,7 @@ class PostFile(models.Model):
     url = models.CharField(max_length=200, default='', verbose_name='url')
     post = models.ForeignKey(Post, related_name='files', verbose_name='files', on_delete=models.CASCADE)
     user = models.ForeignKey(User, verbose_name='user', on_delete=models.CASCADE)
-    createdAt = models.DateTimeField(default=datetime.now, verbose_name='time of creating')
+    createdAt = models.DateTimeField(default=datetime.now, verbose_name='createdAt')
 
     def __str__(self):
         return self.url
@@ -40,7 +40,7 @@ class Comment(models.Model):
     text = models.CharField(max_length=140, default='', verbose_name='comment')
     post = models.ForeignKey(Post, related_name='comments', verbose_name='post', on_delete=models.CASCADE)
     user = models.ForeignKey(User, verbose_name='user', on_delete=models.CASCADE)
-    createdAt = models.DateTimeField(default=datetime.now, verbose_name='time of creating')
+    createdAt = models.DateTimeField(default=datetime.now, verbose_name='createdAt')
 
     def __str__(self):
         return self.text
@@ -53,7 +53,7 @@ class Comment(models.Model):
 class Like(models.Model):
     post = models.ForeignKey(Post, verbose_name='post', on_delete=models.CASCADE)
     user = models.ForeignKey(User, verbose_name='user', on_delete=models.CASCADE)
-    createdAt = models.DateTimeField(default=datetime.now, verbose_name='time of creating')
+    createdAt = models.DateTimeField(default=datetime.now, verbose_name='createdAt')
 
     def __str__(self):
         return self.post.caption
@@ -66,7 +66,7 @@ class Like(models.Model):
 class Follow(models.Model):
     following = models.ForeignKey(User, related_name='following', verbose_name='following', on_delete=models.CASCADE)
     follower = models.ForeignKey(User, verbose_name='follower', on_delete=models.CASCADE)
-    createdAt = models.DateTimeField(default=datetime.now, verbose_name='time of creating')
+    createdAt = models.DateTimeField(default=datetime.now, verbose_name='createdAt')
 
     def __str__(self):
         return self.following.username
@@ -79,7 +79,7 @@ class Follow(models.Model):
 class Save(models.Model):
     post = models.ForeignKey(Post, verbose_name='post', on_delete=models.CASCADE)
     user = models.ForeignKey(User, verbose_name='user', on_delete=models.CASCADE)
-    createdAt = models.DateTimeField(default=datetime.now, verbose_name='time of creating')
+    createdAt = models.DateTimeField(default=datetime.now, verbose_name='createdAt')
 
     def __str__(self):
         return self.post.caption
